@@ -17,7 +17,7 @@ export const regCont = async (req: any, res: any) => {
       password: joi.string().min(5).required(),
     });
     let result = schema.validate(req.body);
-    if (result) {
+    if (!result) {
       return res.send({
         result,
       });
@@ -59,14 +59,15 @@ export const loginCont = async (req: any, res: any) => {
     //validation
     const schema = joi.object({
       email: joi.string().email().required(),
-      password: joi.string().min(5).required(),
+      password: joi.string().min(10).required(),
     });
     let result = schema.validate(req.body);
-    if (result) {
+    if(!result){
       return res.send({
-        result,
-      });
+        result
+      })
     }
+    
 
     // check user register or not
     const user = await getUserByEmail(email);

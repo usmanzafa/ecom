@@ -33,4 +33,4 @@ export const deleteUserById = (id: string) =>
 export const updateUserById = (id: string, values: Record<string, any>) =>
   userModel.findByIdAndUpdate(id, values);
 
-// sending mail by nodemailer
+

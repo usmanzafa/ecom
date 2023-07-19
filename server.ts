@@ -1,7 +1,7 @@
 import fastify from 'fastify'
 import dotenv from 'dotenv'
 import dbConnection from './utils/db'
-import router from './module/user'
+import router from './module/routes'
 
 
 const server = fastify()

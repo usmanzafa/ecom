@@ -1,8 +1,14 @@
-import JWT from "jsonwebtoken"
-export const loginMiddle = async(req:any,res:any,next:any)=>{
+import JWT from 'jsonwebtoken'
+
+
+export const logInMiddle = async(req:any,res:any,next)=>{
     try {
-        const decode = await JWT.verify()
+        const decode = await JWT.verify(req.headers.authorization , process.env.JWT_SECRET);
+        req.user = decode;
+        next();
     } catch (error) {
-        console.log(error)
+        res.send({
+            message:"Header Auth Error"
+        })
     }
-}
+};
