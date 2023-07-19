@@ -47,16 +47,16 @@ export const sendVerifyMail = async(email,id)=>{
     });
 
     const mailOption = {
-        from:"musmanzafar153@gmail.com",
-        to:email,
-        subject:"For Verification",
-        text:"Usman Zafar"
-    }
+      from: "musmanzafar153@gmail.com",
+      to: email,
+      subject: "Verification Email", // Subject line
+      text: "Please note that this code assumes you have the JWT library installed and imported correctly. Additionally, ensure that you have the correct value set for process.env.JWT_SECRET in your environment variables." // plain text body
+    };
     transporter.sendMail(mailOption, function(err,info){
       if(err){
-        console.log(`email has been sent`)
+        console.log(`email has not sent`)
       }else{
-        console.log(`email sent error`)
+        console.log(`email sent Successfully`)
       }
     })
    } catch (error) {
