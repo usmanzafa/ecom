@@ -13,7 +13,7 @@ export const regCont = async (req: any, res: any) => {
     const schema = joi.object({
       lastName: joi.string().required(),
       firstName: joi.string().required(),
-      email: joi.string().email().required(),
+      email: joi.string().email().lowercase().required(),
       password: joi.string().min(5).required(),
     });
     let result = schema.validate(req.body);
