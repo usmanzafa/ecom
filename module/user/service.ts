@@ -34,3 +34,18 @@ export const updateUserById = (id: string, values: Record<string, any>) =>
   userModel.findByIdAndUpdate(id, values);
 
 
+
+
+// delete user by id
+class DeletUser {
+  async deleteUserById(id:string) {
+    try {
+      const del = await userModel.findOneAndDelete({_id:id});
+      return del;
+    } catch (error) {
+      console.log(error)
+      throw error;
+    }
+  }
+};
+export const delUserInstance = new DeletUser();

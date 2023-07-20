@@ -1,10 +1,12 @@
-import { getUserByEmail, createUser, comparePassword } from "./service";
+import { getUserByEmail, createUser, comparePassword , delUserInstance} from "./service";
 import { sendVerifyMail } from "../../utils/utils";
 // import loginSchema from './validation_schema'
 import joi from "joi";
 import JWT from "jsonwebtoken";
 import { hashPassword } from "./service";
 
+
+//register
 export const regCont = async (req: any, res: any) => {
   try {
     const { lastName, firstName, email, password } = req.body;
@@ -107,3 +109,19 @@ export const loginCont = async (req: any, res: any) => {
     console.log(error);
   }
 };
+
+
+// delete user
+export const deleteCont = async(req:any , res:any)=>{
+  try {
+    const{id} = req.params;
+    const delUser = await delUserInstance.deleteUserById(id);
+    res.send({delUser});
+  } catch (error) {
+    res.send({
+      success:false,
+      message:"Error in delete user API",
+      error
+    })
+  }
+}

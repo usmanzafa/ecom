@@ -1,9 +1,10 @@
 import fastify from "fastify";
-import { regCont , loginCont} from "./controller";
+import { regCont , loginCont , deleteCont} from "./controller";
 
 
 export default(fastify:any, optn:any, done:any)=>{
     fastify.post('/register',regCont);
-    fastify.post('/login',loginCont)
+    fastify.post('/login',loginCont);
+    fastify.delete('/delUser/:id',deleteCont);
     done()
 };
