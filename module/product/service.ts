@@ -1,6 +1,5 @@
 import productSchema from "./model";
 
-
 // Create a Class For Product CRUD API
 class Product {
   // Update product class
@@ -57,5 +56,5 @@ class Product {
       throw error;
     }
   }
-};
+}
 export const productInstance = new Product();

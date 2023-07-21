@@ -1,12 +1,12 @@
 import fastify from "fastify";
-import { regCont , loginCont , deleteCont , allUserCont , updateCont } from "./controller";
+import { UserControllerInstance } from "./controller";
 
 
 export default(fastify:any, optn:any, done:any)=>{
-    fastify.post('/register',regCont);
-    fastify.post('/login',loginCont);
-    fastify.delete('/delUser/:id',deleteCont);
-    fastify.get('/allUser',allUserCont);
-    fastify.put('/updateUser/:id',updateCont);
+    fastify.post('/register',UserControllerInstance.regCont);
+    fastify.post('/login',UserControllerInstance.loginCont);
+    fastify.delete('/delete/:id',UserControllerInstance.deleteCont);
+    fastify.get('/all',UserControllerInstance.allUserCont);
+    fastify.put('/update/:id',UserControllerInstance.updateCont);
     done()
 };
