@@ -1,11 +1,4 @@
-import {
-  createInstance,
-  productServiceInstance,
-  getProIdInstance,
-  delInstance,
-  updateInstance
-} from "./service";
-import productSchema from "./model";
+import {productInstance} from "./service";
 import joi from "joi";
 
 
@@ -29,7 +22,7 @@ export const createPro = async (req: any, res: any) => {
     }
 
     // post product
-    const product = await createInstance.createProduct({ name, price, description, category });
+    const product = await productInstance.createProduct({ name, price, description, category });
     res.send({
       success: true,
       product,
@@ -46,7 +39,7 @@ export const createPro = async (req: any, res: any) => {
 export const getAllPro = async (req: any, res: any) => {
   try {
     // Call the getProduct method on the instance to retrieve products
-    const products = await productServiceInstance.getProduct();
+    const products = await productInstance.getProduct();
     res.status(200).send({products});
 
   } catch (error) {
@@ -65,7 +58,7 @@ export const getAllPro = async (req: any, res: any) => {
 export const getOnePro = async (req: any, res: any) => {
   try {
     const { id } = req.params;
-    const product = await getProIdInstance.getProductById(id);
+    const product = await productInstance.getProductById(id);
     res.send({ product });
   } catch (error) {
     res
@@ -85,7 +78,7 @@ export const getOnePro = async (req: any, res: any) => {
 export const deletePro = async (req: any, res: any) => {
   try {
     const { id } = req.params;
-    const del = await delInstance.deleteProductById(id);
+    const del = await productInstance.deleteProductById(id);
     res.send({
       success: true,
       del,
@@ -109,7 +102,7 @@ export const upDate = async (req: any, res: any) => {
   const { name, price, description, category } = req.body;
 
   try{
-    const updatedProduct = await updateInstance.updatedProduct(id,{name,price,description,category});
+    const updatedProduct = await productInstance.updatedProduct(id,{name,price,description,category});
     res.send({ updatedProduct });
   }
 

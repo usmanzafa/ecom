@@ -58,8 +58,4 @@ class Product {
     }
   }
 };
-export const updateInstance = new Product();
-export const delInstance = new Product();
-export const createInstance = new Product();
-export const productServiceInstance = new Product();
-export const getProIdInstance = new Product();
+export const productInstance = new Product();

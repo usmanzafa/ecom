@@ -19,28 +19,56 @@ export const comparePassword = async (password, hashedPassword) => {
   }
 };
 
-// additional function for controller
 
-export const getUsers = () => userModel.find();
+// Create Class For user CRUD functionalty
+class User {
 
-export const getUserByEmail = (email: string) => userModel.findOne({ email });
+  // update user
+  async updateUser(id:string, values:Record<string,any>) {
+    try {
+      const update = await userModel.findByIdAndUpdate(id,values);
+      return update;
+    } catch (error) {
+      console.log(error)
+      throw error
+    }
+  }
 
-export const getUserBySessionToken = (sessionToken: string) =>
-  userModel.findOne({ "authentication.sessionToken": sessionToken });
+  // get all user
+  async getAllUser() {
+    try {
+      const user = await userModel.find();
+      return user
+    } catch (error) {
+      console.log(error)
+      throw error
+    }
+  }
 
-export const getUserById = (id: string) => userModel.findById(id);
+  // get email user
+  async getUserByEmail(email:string) {
+    try {
+      const getEmail = await userModel.findOne({email});
+      return getEmail;
+    } catch (error) {
+      console.log(error)
+      throw error
+    }
+  }
 
-export const createUser = (values: Record<string, any>) =>
-  new userModel(values).save().then((user) => user.toObject());
+  //register User
+  async createUser(values: Record<string , any>){
+    try {
+      const user = await new userModel(values).save();
+      return user
+    } catch (error) {
+      console.log(error)
+      throw error
+    }
+  }
+ 
 
-export const updateUserById = (id: string, values: Record<string, any>) =>
-  userModel.findByIdAndUpdate(id, values);
-
-
-
-
-// delete user by id
-class DeletUser {
+  // delete user by id
   async deleteUserById(id:string) {
     try {
       const del = await userModel.findOneAndDelete({_id:id});
@@ -50,5 +78,6 @@ class DeletUser {
       throw error;
     }
   }
+
 };
-export const delUserInstance = new DeletUser();
+export const userInstance = new User();

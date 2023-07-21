@@ -1,10 +1,8 @@
-import { getUserByEmail, createUser, comparePassword , delUserInstance} from "./service";
+import {userInstance , comparePassword} from "./service";
 import { sendVerifyMail } from "../../utils/utils";
-// import loginSchema from './validation_schema'
 import joi from "joi";
 import JWT from "jsonwebtoken";
 import { hashPassword } from "./service";
-
 
 //register
 export const regCont = async (req: any, res: any) => {
@@ -26,7 +24,7 @@ export const regCont = async (req: any, res: any) => {
     }
 
     // check already register
-    const chk = await getUserByEmail(email);
+    const chk = await userInstance.getUserByEmail(email);
     if (chk) {
       return res.send({
         success: false,
@@ -38,7 +36,7 @@ export const regCont = async (req: any, res: any) => {
     const hashedPassword = await hashPassword(password);
 
     // save user
-    const user = await createUser({
+    const user = await userInstance.createUser({
       lastName,
       firstName,
       email,
@@ -64,15 +62,14 @@ export const loginCont = async (req: any, res: any) => {
       password: joi.string().min(10).required(),
     });
     let result = schema.validate(req.body);
-    if(!result){
+    if (!result) {
       return res.send({
-        result
-      })
+        result,
+      });
     }
-    
 
     // check user register or not
-    const user = await getUserByEmail(email);
+    const user = await userInstance.getUserByEmail(email);
     if (!user) {
       return res.send({
         success: false,
@@ -110,18 +107,58 @@ export const loginCont = async (req: any, res: any) => {
   }
 };
 
-
 // delete user
-export const deleteCont = async(req:any , res:any)=>{
+export const deleteCont = async (req: any, res: any) => {
   try {
-    const{id} = req.params;
-    const delUser = await delUserInstance.deleteUserById(id);
-    res.send({delUser});
+    const { id } = req.params;
+    const delUser = await userInstance.deleteUserById(id);
+    res.send({ delUser });
+  } catch (error) {
+    res.send({
+      success: false,
+      message: "Error in delete user API",
+      error,
+    });
+  }
+};
+
+
+// get all user 
+export const allUserCont = async(req:any , res:any)=>{
+  try {
+    const user = await userInstance.getAllUser();
+    res.send({
+      success:true,
+      user
+    })
   } catch (error) {
     res.send({
       success:false,
-      message:"Error in delete user API",
-      error
+      message:"Get All User Api Error"
     })
   }
 }
+
+
+//update user
+export const updateCont = async(req:any , res:any)=>{
+  try {
+    const{id} = req.params;
+    const { lastName, firstName, email, password } = req.body;
+
+    const updt = await userInstance.updateUser(id,{lastName, firstName, email, password});
+    res.send({
+      success:true,
+      updt
+    })
+    
+  } catch (error) {
+    res.send({
+      success:false,
+      message:"update API error"
+    })
+  }
+}
+
+
+// get user by name

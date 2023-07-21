@@ -8,6 +8,6 @@ export default(fastify:any, optn:any, done:any)=>{
     fastify.get('/allPro',getAllPro);
     fastify.get('/getOnePro/:id',getOnePro);
     fastify.delete('/delPro/:id',deletePro);
-    fastify.put('/upDate/:id', upDate)
+    fastify.put('/updatePro/:id', upDate)
     done()
 };
