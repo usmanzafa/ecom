@@ -1,8 +1,11 @@
 import nodemailer from "nodemailer";
 
 
-// sending mail by nodemailer
-export const sendVerifyMail = async (email, id) => {
+
+class Utils {
+  
+  // sending mail by nodemailer
+  async sendVerifyMail (email:string) {
     try {
       const transporter = nodemailer.createTransport({
         host: "smtp.gmail.com",
@@ -10,20 +13,20 @@ export const sendVerifyMail = async (email, id) => {
         secure: false,
         requireTLS: true,
         auth: {
-          user: "musmanzafar153@gmail.com",
-          pass: "odyymnjhvgpdijlv",
+          user: process.env.E_MAIL,
+          pass: process.env.E_PASS,
         },
       });
   
       const mailOption = {
-        from: "musmanzafar153@gmail.com",
+        from: process.env.E_MAIL,
         to: email,
         subject: "Verification Email", // Subject line
         text: "Thank you for registering with us! To complete your registration and unlock full access to our platform, please verify your email address by clicking the link below:", // plain text body
       };
-      transporter.sendMail(mailOption, function (err, info) {
+      transporter.sendMail(mailOption, function (err:any, info:any) {
         if (err) {
-          console.log(`email has not sent`);
+          console.log(`Your Email Address Wrong`);
         } else {
           console.log(`email sent Successfully`);
         }
@@ -32,3 +35,9 @@ export const sendVerifyMail = async (email, id) => {
       console.log(error);
     }
   };
+
+
+};
+
+
+export const utilsInstance = new Utils();

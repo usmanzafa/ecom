@@ -4,8 +4,8 @@ import product from './product/index'
 
 
 const router = (fastify:any, optn:any, done:any)=>{
-    fastify.register(user),
-    fastify.register(product)
+    fastify.register(user, {prefix:'/user'}),
+    fastify.register(product, {prefix:'/product'})
 
     done();
 }
