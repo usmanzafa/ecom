@@ -1,19 +1,14 @@
-import {
-  createProduct,
-  getProduct,
-  getProductById,
-  deleteProductById,
-} from "./service";
-import productSchema from "./model";
+import {productInstance} from "./service";
 import joi from "joi";
 
-// create product
+
+// create product ✅
 export const createPro = async (req: any, res: any) => {
   try {
     const { name, price, description, category } = req.body;
 
     //validation
-    const schema = joi.object({
+      const schema = joi.object({
       name: joi.string().required(),
       price: joi.number().required(),
       description: joi.string().min(2).required(),
@@ -27,7 +22,7 @@ export const createPro = async (req: any, res: any) => {
     }
 
     // post product
-    const product = await createProduct({ name, price, description, category });
+    const product = await productInstance.createProduct({ name, price, description, category });
     res.send({
       success: true,
       product,
@@ -37,28 +32,33 @@ export const createPro = async (req: any, res: any) => {
   }
 };
 
-//get all product
+
+
+
+//get all product ✅
 export const getAllPro = async (req: any, res: any) => {
   try {
-    const getOne = await getProduct();
-    res.send({
-      success: true,
-      getOne,
-    });
+    // Call the getProduct method on the instance to retrieve products
+    const products = await productInstance.getProduct();
+    res.status(200).send({products});
+
   } catch (error) {
     res.send({
       success: false,
-      message: "GetOneProduct API Error",
+      message: "GetAllProduct API Error",
       error,
     });
   }
 };
 
-// get one product
+
+
+
+// get one product ✅
 export const getOnePro = async (req: any, res: any) => {
   try {
     const { id } = req.params;
-    const product = await getProductById(id);
+    const product = await productInstance.getProductById(id);
     res.send({ product });
   } catch (error) {
     res
@@ -71,12 +71,14 @@ export const getOnePro = async (req: any, res: any) => {
   }
 };
 
-// delete product by id
+
+
+
+// delete product by id ✅
 export const deletePro = async (req: any, res: any) => {
   try {
     const { id } = req.params;
-
-    const del = await deleteProductById(id);
+    const del = await productInstance.deleteProductById(id);
     res.send({
       success: true,
       del,
@@ -92,32 +94,21 @@ export const deletePro = async (req: any, res: any) => {
   }
 };
 
-//update product
+
+
+//update product ✅
 export const upDate = async (req: any, res: any) => {
   const { id } = req.params;
   const { name, price, description, category } = req.body;
 
-  try {
-    // Find the product by ID
-    const product = await productSchema.findById(id);
-
-    if (!product) {
-      return res.status(404).send({ message: "Product not found" });
-    }
-
-    // Update the product fields
-    product.name = name;
-    product.price = price;
-    product.description = description;
-    product.category = category;
-
-    // Save the updated product
-    const updatedProduct = await product.save();
-
+  try{
+    const updatedProduct = await productInstance.updatedProduct(id,{name,price,description,category});
     res.send({ updatedProduct });
-  } catch (error) {
+  }
+
+  catch (error) {
     res.status(500).send({ message: "Server error" });
   }
 };
 
-// search by name
+

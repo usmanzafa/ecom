@@ -19,18 +19,65 @@ export const comparePassword = async (password, hashedPassword) => {
   }
 };
 
-// additional function for controller
 
-export const getUsers = () => userModel.find();
-export const getUserByEmail = (email: string) => userModel.findOne({ email });
-export const getUserBySessionToken = (sessionToken: string) =>
-  userModel.findOne({ "authentication.sessionToken": sessionToken });
-export const getUserById = (id: string) => userModel.findById(id);
-export const createUser = (values: Record<string, any>) =>
-  new userModel(values).save().then((user) => user.toObject());
-export const deleteUserById = (id: string) =>
-  userModel.findOneAndDelete({ _id: id });
-export const updateUserById = (id: string, values: Record<string, any>) =>
-  userModel.findByIdAndUpdate(id, values);
+// Create Class For user CRUD functionalty
+class User {
 
+  // update user
+  async updateUser(id:string, values:Record<string,any>) {
+    try {
+      const update = await userModel.findByIdAndUpdate(id,values);
+      return update;
+    } catch (error) {
+      console.log(error)
+      throw error
+    }
+  }
 
+  // get all user
+  async getAllUser() {
+    try {
+      const user = await userModel.find();
+      return user
+    } catch (error) {
+      console.log(error)
+      throw error
+    }
+  }
+
+  // get email user
+  async getUserByEmail(email:string) {
+    try {
+      const getEmail = await userModel.findOne({email});
+      return getEmail;
+    } catch (error) {
+      console.log(error)
+      throw error
+    }
+  }
+
+  //register User
+  async createUser(values: Record<string , any>){
+    try {
+      const user = await new userModel(values).save();
+      return user
+    } catch (error) {
+      console.log(error)
+      throw error
+    }
+  }
+ 
+
+  // delete user by id
+  async deleteUserById(id:string) {
+    try {
+      const del = await userModel.findOneAndDelete({_id:id});
+      return del;
+    } catch (error) {
+      console.log(error)
+      throw error;
+    }
+  }
+
+};
+export const userInstance = new User();
