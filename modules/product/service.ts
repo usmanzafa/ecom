@@ -1,60 +1,34 @@
 import productSchema from "./model";
+import BaseService from "../../base/baseServices";
 
 // Create a Class For Product CRUD API
-class Product {
+class Product extends BaseService {
+
   // Update product class
-  async updatedProduct(id: string, values: Record<string, any>) {
-    try {
-      const updated = await productSchema.findByIdAndUpdate(id, values);
-      return updated;
-    } catch (error) {
-      console.log(error);
-      throw error;
-    }
+  async update(id: string, values: Record<string, any>) {
+    return await this.updateById(id,values)
   }
 
   //// Delete product by id
-  async deleteProductById(id: string) {
-    try {
-      const del = await productSchema.findOneAndDelete({ _id: id });
-      return del;
-    } catch (error) {
-      console.error("Error fetching products:", error);
-      throw error;
-    }
+  async delete(id: string) {
+    const del = new this.model({_id:id});
+    return await this.deleteById(del)
   }
 
   //create Product
-  async createProduct(values: Record<string, any>) {
-    try {
-      const create = await new productSchema(values).save();
-      return create;
-    } catch (error) {
-      console.error("Error fetching products:", error);
-      throw error;
-    }
+  async create(values: Record<string, any>) {
+    return await this.createOne(values)
   }
 
   // getting All Product
-  async getProduct() {
-    try {
-      const products = await productSchema.find().lean(); // Use .lean() to convert to a plain JavaScript object
-      return products;
-    } catch (error) {
-      console.error("Error fetching products:", error);
-      throw error;
-    }
+  async getAll() {
+    return await this.findAll();
   }
 
   //get product by id
-  async getProductById(id: string) {
-    try {
-      const getPro = await productSchema.findById(id).lean();
-      return getPro;
-    } catch (error) {
-      console.error("Error fetching products:", error);
-      throw error;
-    }
+  async getOneById(id: string) {
+   const getoneId = new this.model({_id:id});
+   return await this.getById(getoneId)
   }
 }
-export const productInstance = new Product();
+export const productInstance = new Product(productSchema);

@@ -1,8 +1,9 @@
 import bcrypt from "bcrypt";
 import userModel from "./model";
+import BaseService from "../../base/baseServices";
 
 // Create Class For user CRUD functionalty
-class User {
+class User extends BaseService {
   // hashPassword
   async hashPassword(password: any) {
     try {
@@ -24,58 +25,31 @@ class User {
   }
 
   // update user
-  async updateUser(id: string, values: Record<string, any>) {
-    try {
-      const update = await userModel.findByIdAndUpdate(id, values);
-      return update;
-    } catch (error) {
-      console.log(error);
-      throw error;
-    }
+  async update(id: string, values: Record<string, any>) {
+    return await this.updateById(id,values)
+ 
   }
 
   // get all user
-  async getAllUser() {
-    try {
-      const user = await userModel.find();
-      return user;
-    } catch (error) {
-      console.log(error);
-      throw error;
-    }
+  async getAll() {
+      return this.findAll()
   }
 
   // get email user
   async getUserByEmail(email: string) {
-    try {
-      const getEmail = await userModel.findOne({ email });
-      return getEmail;
-    } catch (error) {
-      console.log(error);
-      throw error;
-    }
+    const userEmail = new this.model({email});
+    return this.getByEmail(userEmail);
   }
 
   //register User
-  async createUser(values: Record<string, any>) {
-    try {
-      const user = await new userModel(values).save();
-      return user;
-    } catch (error) {
-      console.log(error);
-      throw error;
-    }
+  async create(values: Record<string, any>) {
+    return await this.createOne(values);
   }
 
   // delete user by id
-  async deleteUserById(id: string) {
-    try {
-      const del = await userModel.findOneAndDelete({ _id: id });
-      return del;
-    } catch (error) {
-      console.log(error);
-      throw error;
-    }
+  async delete(id: string) {
+    const del = new this.model({_id:id});
+    return await this.deleteById(del);
   }
 }
-export const userInstance = new User();
+export const userInstance = new User(userModel);

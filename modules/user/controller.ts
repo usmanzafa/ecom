@@ -22,7 +22,7 @@ class UserController {
       const hashedPassword = await userInstance.hashPassword(password);
 
       // save user
-      const user = await userInstance.createUser({
+      const user = await userInstance.create({
         lastName,
         firstName,
         email,
@@ -85,7 +85,7 @@ class UserController {
   async delete(req: any, res: any) {
     try {
       const { id } = req.params;
-      const delUser = await userInstance.deleteUserById(id);
+      const delUser = await userInstance.delete(id);
       res.send({ delUser });
     } catch (error) {
       res.send({
@@ -99,7 +99,7 @@ class UserController {
   // get all user
   async allUser(req: any, res: any) {
     try {
-      const user = await userInstance.getAllUser();
+      const user = await userInstance.getAll();
       res.send({
         success: true,
         user,
@@ -118,7 +118,7 @@ class UserController {
       const { id } = req.params;
       const { lastName, firstName, email, password } = req.body;
 
-      const updt = await userInstance.updateUser(id, {
+      const updt = await userInstance.update(id, {
         lastName,
         firstName,
         email,
