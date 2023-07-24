@@ -10,7 +10,7 @@ class ProdutController {
       const { name, price, description, category } = req.body;
 
       // post product
-      const product = await productInstance.create({
+      const product = await productInstance.createOne({
         name,
         price,
         description,
@@ -29,7 +29,7 @@ class ProdutController {
   async getAll(req: any, res: any) {
     try {
       // Call the getProduct method on the instance to retrieve products
-      const products = await productInstance.getAll();
+      const products = await productInstance.findAll();
       res.status(200).send({ products });
     } catch (error) {
       res.send({
@@ -44,7 +44,7 @@ class ProdutController {
   async getOne(req: any, res: any) {
     try {
       const { id } = req.params;
-      const product = await productInstance.getOneById(id);
+      const product = await productInstance.getById(id);
       res.send({ product });
     } catch (error) {
       res
@@ -61,7 +61,7 @@ class ProdutController {
   async delete(req: any, res: any) {
     try {
       const { id } = req.params;
-      const del = await productInstance.delete(id);
+      const del = await productInstance.deleteById(id);
       res.send({
         success: true,
         del,
@@ -83,7 +83,7 @@ class ProdutController {
     const { name, price, description, category } = req.body;
 
     try {
-      const updatedProduct = await productInstance.update(id, {
+      const updatedProduct = await productInstance.updateById(id, {
         name,
         price,
         description,

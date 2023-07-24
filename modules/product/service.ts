@@ -5,30 +5,30 @@ import BaseService from "../../base/baseServices";
 class Product extends BaseService {
 
   // Update product class
-  async update(id: string, values: Record<string, any>) {
-    return await this.updateById(id,values)
-  }
+  // async update(id: string, values: Record<string, any>) {
+  //   return await this.updateById(id,values)
+  // }
 
-  //// Delete product by id
-  async delete(id: string) {
-    const del = new this.model({_id:id});
-    return await this.deleteById(del)
-  }
+  // //// Delete product by id
+  // async delete(id: string) {
+  //   const del = new this.model({_id:id});
+  //   return await this.deleteById(del)
+  // }
 
-  //create Product
-  async create(values: Record<string, any>) {
-    return await this.createOne(values)
-  }
+  // //create Product
+  // async create(values: Record<string, any>) {
+  //   return await this.createOne(values)
+  // }
 
-  // getting All Product
-  async getAll() {
-    return await this.findAll();
-  }
+  // // getting All Product
+  // async getAll() {
+  //   return await this.findAll();
+  // }
 
-  //get product by id
-  async getOneById(id: string) {
-   const getoneId = new this.model({_id:id});
-   return await this.getById(getoneId)
-  }
+  // //get product by id
+  // async getOneById(id: string) {
+  //  const getoneId = new this.model({_id:id});
+  //  return await this.getById(getoneId)
+  // }
 }
 export const productInstance = new Product(productSchema);

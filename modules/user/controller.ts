@@ -10,7 +10,7 @@ class UserController {
       const { lastName, firstName, email, password } = req.body;
 
       // check already register
-      const chk = await userInstance.getUserByEmail(email);
+      const chk = await userInstance.getByEmail(email);
       if (chk) {
         return res.send({
           success: false,
@@ -22,7 +22,7 @@ class UserController {
       const hashedPassword = await userInstance.hashPassword(password);
 
       // save user
-      const user = await userInstance.create({
+      const user = await userInstance.createOne({
         lastName,
         firstName,
         email,
@@ -43,7 +43,7 @@ class UserController {
       const { email, password } = req.body;
 
       // check user register or not
-      const user = await userInstance.getUserByEmail(email);
+      const user = await userInstance.getByEmail(email);
       if (!user) {
         return res.send({
           success: false,
@@ -85,7 +85,7 @@ class UserController {
   async delete(req: any, res: any) {
     try {
       const { id } = req.params;
-      const delUser = await userInstance.delete(id);
+      const delUser = await userInstance.deleteById(id);
       res.send({ delUser });
     } catch (error) {
       res.send({
@@ -99,7 +99,7 @@ class UserController {
   // get all user
   async allUser(req: any, res: any) {
     try {
-      const user = await userInstance.getAll();
+      const user = await userInstance.findAll();
       res.send({
         success: true,
         user,
@@ -118,7 +118,7 @@ class UserController {
       const { id } = req.params;
       const { lastName, firstName, email, password } = req.body;
 
-      const updt = await userInstance.update(id, {
+      const updt = await userInstance.updateById(id, {
         lastName,
         firstName,
         email,
