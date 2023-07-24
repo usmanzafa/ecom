@@ -23,33 +23,5 @@ class User extends BaseService {
       console.log(error);
     }
   }
-
-  // update user
-  async update(id: string, values: Record<string, any>) {
-    return await this.updateById(id,values)
- 
-  }
-
-  // get all user
-  async getAll() {
-      return this.findAll()
-  }
-
-  // get email user
-  async getUserByEmail(email: string) {
-    const userEmail = new this.model({email});
-    return this.getByEmail(userEmail);
-  }
-
-  //register User
-  async create(values: Record<string, any>) {
-    return await this.createOne(values);
-  }
-
-  // delete user by id
-  async delete(id: string) {
-    const del = new this.model({_id:id});
-    return await this.deleteById(del);
-  }
 }
 export const userInstance = new User(userModel);
