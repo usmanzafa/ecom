@@ -1,28 +1,13 @@
 import { userInstance } from "./service";
 import { utilsInstance } from "../../utils/utils";
-import joi from "joi";
 import JWT from "jsonwebtoken";
 
 // create a class for user controller
 class UserController {
   //register
-  async regCont(req: any, res: any) {
+  async register(req: any, res: any) {
     try {
       const { lastName, firstName, email, password } = req.body;
-
-      //validation
-      const schema = joi.object({
-        lastName: joi.string().required(),
-        firstName: joi.string().required(),
-        email: joi.string().email().lowercase().required(),
-        password: joi.string().min(5).required(),
-      });
-      let result = schema.validate(req.body);
-      if (!result) {
-        return res.send({
-          result,
-        });
-      }
 
       // check already register
       const chk = await userInstance.getUserByEmail(email);
@@ -53,21 +38,9 @@ class UserController {
   }
 
   // login
-  async loginCont(req: any, res: any) {
+  async login(req: any, res: any) {
     try {
       const { email, password } = req.body;
-
-      //validation
-      const schema = joi.object({
-        email: joi.string().email().required(),
-        password: joi.string().min(10).required(),
-      });
-      let result = schema.validate(req.body);
-      if (!result) {
-        return res.send({
-          result,
-        });
-      }
 
       // check user register or not
       const user = await userInstance.getUserByEmail(email);
@@ -109,7 +82,7 @@ class UserController {
   }
 
   // delete user
-  async deleteCont(req: any, res: any) {
+  async delete(req: any, res: any) {
     try {
       const { id } = req.params;
       const delUser = await userInstance.deleteUserById(id);
@@ -124,7 +97,7 @@ class UserController {
   }
 
   // get all user
-  async allUserCont(req: any, res: any) {
+  async allUser(req: any, res: any) {
     try {
       const user = await userInstance.getAllUser();
       res.send({
@@ -140,7 +113,7 @@ class UserController {
   }
 
   //update user
-  async updateCont(req: any, res: any) {
+  async update(req: any, res: any) {
     try {
       const { id } = req.params;
       const { lastName, firstName, email, password } = req.body;
