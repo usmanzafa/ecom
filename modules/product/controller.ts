@@ -5,23 +5,9 @@ import joi from "joi";
 
 class ProdutController {
   // create product ✅
-  async createProduct(req: any, res: any) {
+  async create(req: any, res: any) {
     try {
       const { name, price, description, category } = req.body;
-
-      //validation
-      const schema = joi.object({
-        name: joi.string().required(),
-        price: joi.number().required(),
-        description: joi.string().min(2).required(),
-        category: joi.string().required(),
-      });
-      let result = schema.validate(req.body);
-      if (!result) {
-        return res.send({
-          result,
-        });
-      }
 
       // post product
       const product = await productInstance.createProduct({
@@ -40,7 +26,7 @@ class ProdutController {
   }
 
   //get all product ✅
-  async getAllProduct(req: any, res: any) {
+  async getAll(req: any, res: any) {
     try {
       // Call the getProduct method on the instance to retrieve products
       const products = await productInstance.getProduct();
@@ -55,7 +41,7 @@ class ProdutController {
   }
 
   // get one product ✅
-  async getOneProduct(req: any, res: any) {
+  async getOne(req: any, res: any) {
     try {
       const { id } = req.params;
       const product = await productInstance.getProductById(id);
@@ -72,7 +58,7 @@ class ProdutController {
   }
 
   // delete product by id ✅
-  async deleteProduct(req: any, res: any) {
+  async delete(req: any, res: any) {
     try {
       const { id } = req.params;
       const del = await productInstance.deleteProductById(id);
@@ -92,7 +78,7 @@ class ProdutController {
   }
 
   //update product ✅
-  async upDateProduct(req: any, res: any) {
+  async upDate(req: any, res: any) {
     const { id } = req.params;
     const { name, price, description, category } = req.body;
 
