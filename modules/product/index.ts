@@ -1,5 +1,5 @@
 import fastify from "fastify";
-import { ProductControllerInstance } from "./controller";
+import { ControllerInstance } from "./controller";
 import { productValidateInstance } from "./schema";
 
 // Define the routes using the controller instance methods with preHandler hook
@@ -8,12 +8,12 @@ export default (fastify: any, optn: any, done: any) => {
   fastify.post(
     "/create",
     { preHandler: productValidateInstance.productPreHandler },
-    ProductControllerInstance.create
+    ControllerInstance.create
   );
-  fastify.get("/all", ProductControllerInstance.getAll);
-  fastify.get("/getOne/:id", ProductControllerInstance.getOne);
-  fastify.delete("/delete/:id", ProductControllerInstance.delete);
-  fastify.put("/update/:id", ProductControllerInstance.upDate);
+  fastify.get("/all", ControllerInstance.getAll);
+  fastify.get("/getOne/:id", ControllerInstance.getOne);
+  fastify.delete("/delete/:id", ControllerInstance.deleteById);
+  fastify.put("/update/:id", ControllerInstance.upDate);
 
   done();
 };

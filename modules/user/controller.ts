@@ -1,9 +1,11 @@
 import { userInstance } from "./service";
 import { utilsInstance } from "../../utils/utils";
+import BaseController from "../../base/baseController";
+import userSchema from './model'
 import JWT from "jsonwebtoken";
 
 // create a class for user controller
-class UserController {
+class UserController extends BaseController {
   //register
   async register(req: any, res: any) {
     try {
@@ -26,14 +28,15 @@ class UserController {
         lastName,
         firstName,
         email,
-        password: hashedPassword,
+        password:hashedPassword,
       });
       res.send({
         success: true,
         user,
       });
     } catch (error) {
-      console.log(error);
+      // console.log(error);
+      res.send({error})
     }
   }
 
@@ -81,37 +84,6 @@ class UserController {
     }
   }
 
-  // delete user
-  async delete(req: any, res: any) {
-    try {
-      const { id } = req.params;
-      const delUser = await userInstance.deleteById(id);
-      res.send({ delUser });
-    } catch (error) {
-      res.send({
-        success: false,
-        message: "Error in delete user API",
-        error,
-      });
-    }
-  }
-
-  // get all user
-  async allUser(req: any, res: any) {
-    try {
-      const user = await userInstance.findAll();
-      res.send({
-        success: true,
-        user,
-      });
-    } catch (error) {
-      res.send({
-        success: false,
-        message: "Get All User Api Error",
-      });
-    }
-  }
-
   //update user
   async update(req: any, res: any) {
     try {
@@ -137,4 +109,4 @@ class UserController {
   }
 }
 
-export const UserControllerInstance = new UserController();
+export const UserControllerInstance = new UserController(userSchema,userInstance);

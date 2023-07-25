@@ -14,8 +14,8 @@ export default (fastify: any, optn: any, done: any) => {
     { preHandler: userValidateInstance.loginPrehandler },
     UserControllerInstance.login
   );
-  fastify.delete("/delete/:id", UserControllerInstance.delete);
-  fastify.get("/all", UserControllerInstance.allUser);
+  fastify.delete("/delete/:id", UserControllerInstance.deleteById);
+  fastify.get("/all", UserControllerInstance.getAll);
   fastify.put("/update/:id", UserControllerInstance.update);
 
   done();
