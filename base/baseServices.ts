@@ -21,7 +21,7 @@ class BaseService {
       return user;
     };
     public getByEmail = async (email: string) => {    
-      const user = await this.model.findOne(email);
+      const user = await this.model.findOne({email});
       return user;
     };
     public updateById = async (id: string, data: any) => {
